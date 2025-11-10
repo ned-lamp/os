@@ -1,0 +1,11 @@
+javac MathLibrary.java
+
+javac -h . MathLibrary.java
+
+which java
+export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+ls $JAVA_HOME/include/jni.h
+
+gcc -shared -fPIC -I"$JAVA_HOME/include" -I"$JAVA_HOME/include/linux" MathLibrary.c -o libmathlib.so
+
+java -Djava.library.path=. --enable-native-access=ALL-UNNAMED MathLibrary
